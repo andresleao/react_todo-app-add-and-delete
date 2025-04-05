@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { TodoContext } from '../../context/TodoContext';
 import { TodoFilterType } from '../../types/TodoFilterType';
 import cn from 'classnames';
-import { deleteTodo, getTodos } from '../../api/todos';
+import { deleteTodo } from '../../api/todos';
 import { ErrorMessageType } from '../../types/ErrorMessageType';
 
 export const Footer = () => {
@@ -34,9 +34,13 @@ export const Footer = () => {
     try {
       setDeletingIds(completedIds);
       await Promise.all(completedTodos.map(todo => deleteTodo(todo.id)));
-      const newList = await getTodos();
+      const newList = todos.filter(todo => !completedIds.includes(todo.id));
 
       setTodos(newList);
+
+      // LIST UPDATE WITH API
+      // const newList = await getTodos();
+      //setTodos(newList);
     } catch (error) {
       setErrorType(ErrorMessageType.Delete);
     } finally {

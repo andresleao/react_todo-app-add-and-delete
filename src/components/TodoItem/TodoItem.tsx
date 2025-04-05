@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { Todo } from '../../types/Todo';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { TodoContext } from '../../context/TodoContext';
-import { deleteTodo, getTodos, updateTodo, USER_ID } from '../../api/todos';
+import { deleteTodo, updateTodo, USER_ID } from '../../api/todos';
 import { ErrorMessageType } from '../../types/ErrorMessageType';
 
 type TodoItemProps = {
@@ -13,8 +13,14 @@ type TodoItemProps = {
 };
 
 export const TodoItem = ({ todo }: TodoItemProps) => {
-  const { setErrorType, setTodos, isListLoading, deletingIds, setDeletingIds } =
-    useContext(TodoContext);
+  const {
+    setErrorType,
+    todos,
+    setTodos,
+    isListLoading,
+    deletingIds,
+    setDeletingIds,
+  } = useContext(TodoContext);
 
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState('');
@@ -48,7 +54,11 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       const response = await updateTodo(updatedTodo);
 
       if (response) {
-        const updatedList = await getTodos();
+        // const updatedList = await getTodos();
+        // setTodos(updatedList);
+        const updatedList = todos.map(todoItem =>
+          todoItem.id === response.id ? response : todoItem,
+        );
 
         setTodos(updatedList);
       }
@@ -65,9 +75,9 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       const response = await deleteTodo(todoId);
 
       if (response) {
-        const data = await getTodos();
-
-        setTodos([...data]);
+        // const data = await getTodos();
+        // setTodos([...data]);
+        setTodos([...todos].filter(todoItem => todoItem.id !== todoId));
       }
     } catch (error) {
       setErrorType(ErrorMessageType.Delete);
@@ -91,24 +101,28 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       const response = await updateTodo(updatedTodo);
 
       if (response) {
-        try {
-          const updatedList = await getTodos();
+        const updatedTodos = todos.map(todoItem =>
+          todoItem.id === response.id ? response : todoItem,
+        );
 
-          if (updatedList) {
-            setTodos([...updatedList]);
-            editFormRef.current?.blur();
-            setIsEditing(false);
-          }
-        } catch (error) {
-          setErrorType(ErrorMessageType.Loading);
-          throw new Error('An error ocurred');
-        } finally {
-          setIsLoading(false);
-        }
+        setTodos(updatedTodos);
+        editFormRef.current?.blur();
+        setIsEditing(false);
+        // try {
+        //   const updatedList = await getTodos();
+        //   if (updatedList) {
+        //     setTodos([...updatedList]);
+        //     editFormRef.current?.blur();
+        //     setIsEditing(false);
+        //   }
+        // } catch (error) {
+        //   setErrorType(ErrorMessageType.Loading);
+        // } finally {
+        //   setIsLoading(false);
+        // }
       }
     } catch (error) {
       setErrorType(ErrorMessageType.Update);
-      throw new Error('An error ocurred');
     } finally {
       setIsLoading(false);
     }

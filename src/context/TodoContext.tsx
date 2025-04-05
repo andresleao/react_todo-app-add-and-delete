@@ -4,7 +4,7 @@ import { ErrorMessageType } from '../types/ErrorMessageType';
 import { TodoFilterType } from '../types/TodoFilterType';
 
 type TodoContextType = {
-  todos: Todo[] | null;
+  todos: Todo[];
   setTodos: (todos: Todo[]) => void;
   errorType: ErrorMessageType | null;
   setErrorType: (error: ErrorMessageType | null) => void;
@@ -17,7 +17,7 @@ type TodoContextType = {
 };
 
 export const TodoContext = React.createContext<TodoContextType>({
-  todos: null,
+  todos: [],
   setTodos: () => {},
   errorType: null,
   setErrorType: () => {},
@@ -34,7 +34,7 @@ type Props = {
 };
 
 export const TodoProvider: React.FC<Props> = ({ children }) => {
-  const [todos, setTodos] = useState<Todo[] | null>(null);
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [errorType, setErrorType] = useState<ErrorMessageType | null>(null);
   const [selectedFilter, setSelectedFilter] = useState(TodoFilterType.All);
   const [isListLoading, setIsListLoading] = useState(false);
