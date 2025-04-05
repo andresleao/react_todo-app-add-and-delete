@@ -6,7 +6,8 @@ Take your code implemented for [Loading todos](https://github.com/mate-academy/r
 and implement the ability to add and remove todos.
 
 > Here is [the working example](https://mate-academy.github.io/react_todo-app-with-api/)
-# ❗️❗️❗️</br>Please implement only adding and deleting todos in addition to what was already implemented.<br><br>All the other features from the working version will be implemented in the next task.</br>❗️❗️❗️
+
+❗️❗️❗️</br>Please implement only adding and deleting todos in addition to what was already implemented.<br><br>All the other features from the working version will be implemented in the next task.</br>❗️❗️❗️
 
 > Check the [API Documentation](https://mate-academy.github.io/fe-students-api/)
 
