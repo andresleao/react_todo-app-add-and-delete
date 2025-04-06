@@ -9,8 +9,14 @@ import { TodoFilterType } from '../../types/TodoFilterType';
 import { ErrorMessageType } from '../../types/ErrorMessageType';
 
 export const Todos = () => {
-  const { todos, setTodos, selectedFilter, setErrorType } =
-    useContext(TodoContext);
+  const {
+    todos,
+    setTodos,
+    selectedFilter,
+    setErrorType,
+    tempTodo,
+    isCreating,
+  } = useContext(TodoContext);
 
   const handleGetTodos = useCallback(async () => {
     try {
@@ -44,6 +50,7 @@ export const Todos = () => {
   return (
     <section className="todoapp__main" data-cy="TodoList">
       {filteredTodos?.map(todo => <TodoItem key={todo.id} todo={todo} />)}
+      {tempTodo && <TodoItem todo={tempTodo} isCreating={isCreating} />}
     </section>
   );
 };

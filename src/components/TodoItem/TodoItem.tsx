@@ -10,9 +10,10 @@ import { ErrorMessageType } from '../../types/ErrorMessageType';
 
 type TodoItemProps = {
   todo: Todo;
+  isCreating?: boolean;
 };
 
-export const TodoItem = ({ todo }: TodoItemProps) => {
+export const TodoItem = ({ todo, isCreating = false }: TodoItemProps) => {
   const {
     setErrorType,
     todos,
@@ -54,13 +55,15 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       const response = await updateTodo(updatedTodo);
 
       if (response) {
-        // const updatedList = await getTodos();
-        // setTodos(updatedList);
         const updatedList = todos.map(todoItem =>
           todoItem.id === response.id ? response : todoItem,
         );
 
         setTodos(updatedList);
+
+        // Updating with API
+        // const updatedList = await getTodos();
+        // setTodos(updatedList);
       }
     } catch (error) {
       setErrorType(ErrorMessageType.Update);
@@ -75,9 +78,11 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       const response = await deleteTodo(todoId);
 
       if (response) {
+        setTodos([...todos].filter(todoItem => todoItem.id !== todoId));
+
+        // Updating with API
         // const data = await getTodos();
         // setTodos([...data]);
-        setTodos([...todos].filter(todoItem => todoItem.id !== todoId));
       }
     } catch (error) {
       setErrorType(ErrorMessageType.Delete);
@@ -152,11 +157,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
         />
       </label>
 
-      {isLoading ? (
-        <span data-cy="TodoTitle" className="todo__title">
-          Todo is being saved now
-        </span>
-      ) : isEditing ? (
+      {isEditing ? (
         <form onSubmit={handleOnSubmit}>
           <input
             ref={editFormRef}
@@ -190,7 +191,7 @@ export const TodoItem = ({ todo }: TodoItemProps) => {
       <div
         data-cy="TodoLoader"
         className={cn('modal overlay', {
-          'is-active': isLoading || isListLoading || isDeleting,
+          'is-active': isCreating || isLoading || isListLoading || isDeleting,
         })}
       >
         <div className="modal-background has-background-white-ter" />

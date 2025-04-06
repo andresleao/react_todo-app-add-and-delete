@@ -8,8 +8,14 @@ import { Todo } from '../../types/Todo';
 import cn from 'classnames';
 
 export const Header = () => {
-  const { todos, setTodos, setErrorType, setIsListLoading } =
-    useContext(TodoContext);
+  const {
+    todos,
+    setTodos,
+    setErrorType,
+    setIsListLoading,
+    setIsCreating,
+    setTempTodo,
+  } = useContext(TodoContext);
 
   const [title, setTitle] = useState('');
   const titleInput = useRef<HTMLInputElement>(null);
@@ -55,12 +61,17 @@ export const Header = () => {
       return;
     }
 
+    const newTodo: Omit<Todo, 'id'> = {
+      userId: USER_ID,
+      title: title.trim(),
+      completed: false,
+    };
+
     try {
-      const newTodo: Omit<Todo, 'id'> = {
-        userId: USER_ID,
-        title: title.trim(),
-        completed: false,
-      };
+      setIsCreating(true);
+      setTempTodo({ id: 0, ...newTodo });
+
+      titleInput.current?.blur();
 
       const response = await createTodo(newTodo);
 
@@ -72,15 +83,17 @@ export const Header = () => {
       }
     } catch (error) {
       setErrorType(ErrorMessageType.Add);
+    } finally {
+      setIsCreating(false);
+      setTempTodo(null);
+      titleInput.current?.focus();
     }
   };
 
   const isAllTodosCompleted = todos && todos?.every(todo => todo.completed);
 
   useEffect(() => {
-    if (titleInput?.current) {
-      titleInput.current.focus();
-    }
+    titleInput.current?.focus();
   }, []);
 
   return (

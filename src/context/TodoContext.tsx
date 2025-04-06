@@ -6,6 +6,10 @@ import { TodoFilterType } from '../types/TodoFilterType';
 type TodoContextType = {
   todos: Todo[];
   setTodos: (todos: Todo[]) => void;
+  tempTodo: Todo | null;
+  setTempTodo: (todo: Todo | null) => void;
+  isCreating: boolean;
+  setIsCreating: (isCreating: boolean) => void;
   errorType: ErrorMessageType | null;
   setErrorType: (error: ErrorMessageType | null) => void;
   selectedFilter: TodoFilterType;
@@ -19,6 +23,10 @@ type TodoContextType = {
 export const TodoContext = React.createContext<TodoContextType>({
   todos: [],
   setTodos: () => {},
+  tempTodo: null,
+  setTempTodo: () => {},
+  isCreating: false,
+  setIsCreating: () => {},
   errorType: null,
   setErrorType: () => {},
   selectedFilter: TodoFilterType.All,
@@ -35,15 +43,19 @@ type Props = {
 
 export const TodoProvider: React.FC<Props> = ({ children }) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [tempTodo, setTempTodo] = useState<Todo | null>(null);
   const [errorType, setErrorType] = useState<ErrorMessageType | null>(null);
   const [selectedFilter, setSelectedFilter] = useState(TodoFilterType.All);
   const [isListLoading, setIsListLoading] = useState(false);
   const [deletingIds, setDeletingIds] = useState<number[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
 
   const value = useMemo(
     () => ({
       todos,
       setTodos,
+      tempTodo,
+      setTempTodo,
       errorType,
       setErrorType,
       selectedFilter,
@@ -52,8 +64,18 @@ export const TodoProvider: React.FC<Props> = ({ children }) => {
       setIsListLoading,
       deletingIds,
       setDeletingIds,
+      isCreating,
+      setIsCreating,
     }),
-    [todos, errorType, selectedFilter, isListLoading, deletingIds],
+    [
+      todos,
+      tempTodo,
+      errorType,
+      selectedFilter,
+      isListLoading,
+      deletingIds,
+      isCreating,
+    ],
   );
 
   // prettier-ignore

@@ -463,51 +463,51 @@ describe('', () => {
       });
     });
 
-    // describe('after form submition before response is received', () => {
-    //   beforeEach(() => {
-    //     page.mockCreate();
-    //     page.pauseTimers();
-    //     page.newTodoField().type('Test Todo{enter}');
-    //   });
+    describe('after form submition before response is received', () => {
+      beforeEach(() => {
+        page.mockCreate();
+        page.pauseTimers();
+        page.newTodoField().type('Test Todo{enter}');
+      });
 
-    //   it('should send a create request', () => {
-    //     cy.tick(1000);
-    //     cy.get('@createCallback').should('have.callCount', 1);
-    //   });
+      it('should send a create request', () => {
+        cy.tick(1000);
+        cy.get('@createCallback').should('have.callCount', 1);
+      });
 
-    //   it('should disable the input', () => {
-    //     page.newTodoField().should('be.disabled');
-    //   });
+      it('should disable the input', () => {
+        page.newTodoField().should('be.disabled');
+      });
 
-    //   it('should keep entered text', () => {
-    //     page.newTodoField().should('have.value', 'Test Todo');
-    //   });
+      it('should keep entered text', () => {
+        page.newTodoField().should('have.value', 'Test Todo');
+      });
 
-    //   it('should create and show a temp TodoItem with Loader', () => {
-    //     todos.assertCount(6);
-    //     todos.assertLoading(5);
-    //   });
+      it('should create and show a temp TodoItem with Loader', () => {
+        todos.assertCount(6);
+        todos.assertLoading(5);
+      });
 
-    //   it('should show a temp TodoItem with correct title', () => {
-    //     todos.assertTitle(5, 'Test Todo');
-    //   });
+      it('should show a temp TodoItem with correct title', () => {
+        todos.assertTitle(5, 'Test Todo');
+      });
 
-    //   it('should show a not completed temp TodoItem', () => {
-    //     todos.assertNotCompleted(5);
-    //   });
+      it('should show a not completed temp TodoItem', () => {
+        todos.assertNotCompleted(5);
+      });
 
-    //   it('should not show loaders for existing todos', () => {
-    //     todos.assertNotLoading(0);
-    //     todos.assertNotLoading(1);
-    //     todos.assertNotLoading(2);
-    //     todos.assertNotLoading(3);
-    //     todos.assertNotLoading(4);
-    //   });
+      it('should not show loaders for existing todos', () => {
+        todos.assertNotLoading(0);
+        todos.assertNotLoading(1);
+        todos.assertNotLoading(2);
+        todos.assertNotLoading(3);
+        todos.assertNotLoading(4);
+      });
 
-    //   it('should not update active counter', () => {
-    //     page.todosCounter().should('have.text', '2 items left');
-    //   });
-    // });
+      it('should not update active counter', () => {
+        page.todosCounter().should('have.text', '2 items left');
+      });
+    });
 
     // describe('on success response', () => {
     //   describe('', () => {
