@@ -32,7 +32,7 @@ export const Todos = () => {
     handleGetTodos();
   }, [handleGetTodos]);
 
-  if (todos === null || todos?.length === 0) {
+  if (todos.length === 0) {
     return null;
   }
 

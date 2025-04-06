@@ -187,7 +187,6 @@ export const TodoItem = ({ todo, isCreating = false }: TodoItemProps) => {
         </button>
       )}
 
-      {/* overlay will cover the todo while it is being deleted or updated */}
       <div
         data-cy="TodoLoader"
         className={cn('modal overlay', {

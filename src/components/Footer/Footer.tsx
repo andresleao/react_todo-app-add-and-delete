@@ -10,7 +10,7 @@ export const Footer = () => {
     useContext(TodoContext);
   const { todos, setTodos, setErrorType } = useContext(TodoContext);
 
-  if ((todos && todos.length === 0) || todos === null) {
+  if (todos.length === 0) {
     return null;
   }
 
@@ -19,10 +19,6 @@ export const Footer = () => {
   const hasCompletedTodo = todos.some(todo => todo.completed);
 
   const handleDeleteCompletedTodos = async () => {
-    if (!todos) {
-      return;
-    }
-
     const completedTodos = todos.filter(todo => todo.completed);
 
     if (completedTodos.length === 0) {
